@@ -88,7 +88,13 @@
    TURSO_AUTH_TOKEN=TURSO_AUTH_TOKEN_AQUI
    NEXTAUTH_SECRET=genera-un-string-aleatorio-largo-aqui
    NEXTAUTH_URL=https://tu-proyecto.vercel.app
+   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=tu-api-key-de-google-maps
    ```
+
+   **Para obtener la API Key de Google Maps:**
+   1. Ve a [Google Cloud Console](https://console.cloud.google.com/)
+   2. Crea un proyecto y habilita: **Maps JavaScript API**, **Places API** y **Geocoding API**
+   3. Crea credenciales (API Key) y restríngela a tu dominio para seguridad.
 
    **Para generar NEXTAUTH_SECRET**:
    ```bash

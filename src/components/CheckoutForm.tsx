@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
 import { getDeliveryDate, formatDate } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import AddressAutocomplete from './AddressAutocomplete';
 
 export default function CheckoutForm() {
     const { items, cartTotal, clearCart } = useCart();
@@ -188,14 +189,12 @@ export default function CheckoutForm() {
                     </div>
 
                     {formData.shippingMethod === 'delivery' && (
-                        <input
-                            type="text"
-                            placeholder="Dirección de Entrega"
-                            required
-                            style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}
-                            value={formData.address}
-                            onChange={e => setFormData({ ...formData, address: e.target.value })}
-                        />
+                        <div style={{ width: '100%' }}>
+                            <AddressAutocomplete
+                                defaultValue={formData.address}
+                                onAddressSelect={(address) => setFormData({ ...formData, address })}
+                            />
+                        </div>
                     )}
 
                     {deliveryDate && (
