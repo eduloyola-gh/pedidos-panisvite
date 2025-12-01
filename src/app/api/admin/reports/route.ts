@@ -33,11 +33,14 @@ export async function GET(request: NextRequest) {
                 break;
         }
 
-        // Get all orders
+        // Get all orders (excluding cancelled)
         const orders = await prisma.order.findMany({
             where: {
                 createdAt: {
                     gte: startDate
+                },
+                status: {
+                    not: 'CANCELLED'
                 }
             },
             include: {
@@ -50,8 +53,13 @@ export async function GET(request: NextRequest) {
             }
         });
 
-        // Get all historical orders for total stats
+        // Get all historical orders for total stats (excluding cancelled)
         const allOrders = await prisma.order.findMany({
+            where: {
+                status: {
+                    not: 'CANCELLED'
+                }
+            },
             include: {
                 user: {
                     select: {

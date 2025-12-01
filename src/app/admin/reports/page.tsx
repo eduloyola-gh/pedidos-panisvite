@@ -91,6 +91,12 @@ export default function ReportsPage() {
                     <button className="btn btn-outline" onClick={printReport}>
                         🖨️ Imprimir
                     </button>
+
+                    <Link href="/admin/reports/production">
+                        <button className="btn btn-primary">
+                            📦 Informe de Producción
+                        </button>
+                    </Link>
                 </div>
             </div>
 

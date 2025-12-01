@@ -85,3 +85,30 @@ export async function PATCH(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
     }
 }
+
+// DELETE order
+export async function DELETE(request: NextRequest) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session || (session.user as any).role !== 'ADMIN') {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+
+        if (!id) {
+            return NextResponse.json({ error: 'Order ID required' }, { status: 400 });
+        }
+
+        await prisma.order.delete({
+            where: { id }
+        });
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error('Error deleting order:', error);
+        return NextResponse.json({ error: 'Failed to delete order' }, { status: 500 });
+    }
+}

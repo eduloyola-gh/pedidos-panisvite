@@ -89,7 +89,17 @@
    NEXTAUTH_SECRET=genera-un-string-aleatorio-largo-aqui
    NEXTAUTH_URL=https://tu-proyecto.vercel.app
    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=tu-api-key-de-google-maps
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_USER=tu-email@gmail.com
+   SMTP_PASS=tu-contraseña-de-aplicacion
+   SMTP_SECURE=false
    ```
+
+   **Para configurar el Email (Gmail):**
+   1. Ve a tu cuenta de Google > Seguridad > Verificación en 2 pasos > Contraseñas de aplicaciones.
+   2. Genera una nueva contraseña para "Correo".
+   3. Usa esa contraseña en `SMTP_PASS` (no tu contraseña normal).
 
    **Para obtener la API Key de Google Maps:**
    1. Ve a [Google Cloud Console](https://console.cloud.google.com/)

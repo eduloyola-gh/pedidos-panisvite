@@ -73,6 +73,27 @@ export default function OrdersManagement() {
         }
     };
 
+    const handleDeleteOrder = async (orderId: string) => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este pedido permanentemente? Esta acción no se puede deshacer y afectará a las estadísticas.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/admin/orders?id=${orderId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                fetchOrders();
+            } else {
+                alert('Error al eliminar el pedido');
+            }
+        } catch (error) {
+            console.error('Error deleting order:', error);
+            alert('Error al eliminar el pedido');
+        }
+    };
+
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'PENDING': return { bg: '#fef3c7', color: '#92400e' };
