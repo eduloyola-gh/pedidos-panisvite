@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { useCart } from '@/context/CartContext';
 import { getDeliveryDate, formatDate } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
@@ -8,6 +9,7 @@ import { useRouter } from 'next/navigation';
 export default function CheckoutForm() {
     const { items, cartTotal, clearCart } = useCart();
     const router = useRouter();
+    const { data: session } = useSession();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -20,6 +22,20 @@ export default function CheckoutForm() {
     });
 
     const [deliveryDate, setDeliveryDate] = useState<Date | null>(null);
+
+    // Pre-fill form data from session
+    useEffect(() => {
+        if (session?.user) {
+            setFormData(prev => ({
+                ...prev,
+                name: session.user.name || '',
+                email: session.user.email || '',
+                phone: (session.user as any).phone || '',
+                address: (session.user as any).address || '',
+                isGuest: false
+            }));
+        }
+    }, [session]);
 
     useEffect(() => {
         setDeliveryDate(getDeliveryDate());
