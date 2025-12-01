@@ -1,7 +1,7 @@
 "use client";
 
 import { useCart } from '@/context/CartContext';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function Header() {
@@ -41,6 +41,13 @@ export default function Header() {
                                     </button>
                                 </Link>
                             )}
+                            <button
+                                className="btn btn-outline"
+                                style={{ padding: '0.5rem 1rem' }}
+                                onClick={() => signOut({ callbackUrl: '/' })}
+                            >
+                                Cerrar Sesión
+                            </button>
                         </div>
                     ) : (
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
