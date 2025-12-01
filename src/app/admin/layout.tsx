@@ -18,6 +18,7 @@ export default function AdminLayout({
         { href: '/admin', label: 'Dashboard', icon: '📊' },
         { href: '/admin/products', label: 'Productos', icon: '🥖' },
         { href: '/admin/orders', label: 'Pedidos', icon: '📦' },
+        { href: '/admin/settings', label: 'Configuración', icon: '⚙️' },
     ];
 
     return (

@@ -22,6 +22,7 @@ export default function CheckoutForm() {
     });
 
     const [deliveryDate, setDeliveryDate] = useState<Date | null>(null);
+    const [freeShippingThreshold, setFreeShippingThreshold] = useState(50.0);
 
     // Pre-fill form data from session
     useEffect(() => {
@@ -39,9 +40,25 @@ export default function CheckoutForm() {
 
     useEffect(() => {
         setDeliveryDate(getDeliveryDate());
+        fetchSettings();
     }, []);
 
-    const shippingCost = formData.shippingMethod === 'delivery' ? 8 : 0;
+    const fetchSettings = async () => {
+        try {
+            const response = await fetch('/api/settings');
+            if (response.ok) {
+                const data = await response.json();
+                setFreeShippingThreshold(data.freeShippingThreshold);
+            }
+        } catch (error) {
+            console.error('Error fetching settings:', error);
+        }
+    };
+
+    // Calculate shipping cost based on threshold
+    const shippingCost = formData.shippingMethod === 'delivery'
+        ? (cartTotal >= freeShippingThreshold ? 0 : 8)
+        : 0;
     const finalTotal = cartTotal + shippingCost;
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -123,25 +140,51 @@ export default function CheckoutForm() {
 
                 <div className="card">
                     <h3 style={{ marginBottom: '1.5rem' }}>Entrega</h3>
-                    <div style={{ display: 'flex', gap: '2rem', marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                            <input
-                                type="radio"
-                                name="shipping"
-                                checked={formData.shippingMethod === 'delivery'}
-                                onChange={() => setFormData({ ...formData, shippingMethod: 'delivery' })}
-                            />
-                            <span>Envío a Domicilio (8.00€)</span>
-                        </label>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                            <input
-                                type="radio"
-                                name="shipping"
-                                checked={formData.shippingMethod === 'pickup'}
-                                onChange={() => setFormData({ ...formData, shippingMethod: 'pickup' })}
-                            />
-                            <span>Recogida en Obrador (Gratis)</span>
-                        </label>
+                    <div style={{ display: 'flex', gap: '2rem', marginBottom: '1.5rem', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', gap: '2rem' }}>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                                <input
+                                    type="radio"
+                                    name="shipping"
+                                    checked={formData.shippingMethod === 'delivery'}
+                                    onChange={() => setFormData({ ...formData, shippingMethod: 'delivery' })}
+                                />
+                                <span>Envío a Domicilio ({cartTotal >= freeShippingThreshold ? 'GRATIS' : '8.00€'})</span>
+                            </label>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                                <input
+                                    type="radio"
+                                    name="shipping"
+                                    checked={formData.shippingMethod === 'pickup'}
+                                    onChange={() => setFormData({ ...formData, shippingMethod: 'pickup' })}
+                                />
+                                <span>Recogida en Obrador (Gratis)</span>
+                            </label>
+                        </div>
+
+                        {formData.shippingMethod === 'delivery' && cartTotal < freeShippingThreshold && (
+                            <div style={{
+                                padding: '0.75rem',
+                                background: '#fef3c7',
+                                color: '#92400e',
+                                borderRadius: 'var(--radius-md)',
+                                fontSize: '0.9rem'
+                            }}>
+                                💡 Añade {(freeShippingThreshold - cartTotal).toFixed(2)}€ más para conseguir <strong>envío gratis</strong>
+                            </div>
+                        )}
+
+                        {formData.shippingMethod === 'delivery' && cartTotal >= freeShippingThreshold && (
+                            <div style={{
+                                padding: '0.75rem',
+                                background: '#d1fae5',
+                                color: '#065f46',
+                                borderRadius: 'var(--radius-md)',
+                                fontSize: '0.9rem'
+                            }}>
+                                🎉 ¡Enhorabuena! Tu pedido tiene <strong>envío gratis</strong>
+                            </div>
+                        )}
                     </div>
 
                     {formData.shippingMethod === 'delivery' && (

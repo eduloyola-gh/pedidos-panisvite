@@ -19,13 +19,25 @@ export default function Header() {
             zIndex: 10
         }}>
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                <Link href="/" style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--color-primary)' }}>
-                        MFEL Obrador
-                    </span>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                        Panadería Artesanal
-                    </span>
+                <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <img
+                        src="/logo.jpg"
+                        alt="PanIsVite"
+                        style={{
+                            width: '60px',
+                            height: '60px',
+                            borderRadius: '50%',
+                            objectFit: 'cover'
+                        }}
+                    />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--color-primary)' }}>
+                            PanIsVite
+                        </span>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                            El pan de tu vida
+                        </span>
+                    </div>
                 </Link>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>

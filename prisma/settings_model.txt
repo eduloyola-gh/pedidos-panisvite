@@ -1,0 +1,6 @@
+// App Settings Model
+model AppSettings {
+  id                    String   @id @default(cuid())
+  freeShippingThreshold Float    @default(50.0)
+  updatedAt             DateTime @updatedAt
+}

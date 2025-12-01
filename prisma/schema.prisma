@@ -45,3 +45,9 @@ model Order {
   status        String   @default("PENDING")
   createdAt     DateTime @default(now())
 }
+
+model AppSettings {
+  id                    String   @id @default(cuid())
+  freeShippingThreshold Float    @default(50.0)
+  updatedAt             DateTime @updatedAt
+}
