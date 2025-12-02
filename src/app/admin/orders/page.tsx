@@ -231,22 +231,40 @@ export default function OrdersManagement() {
                                         </p>
                                     </div>
 
-                                    <select
-                                        value={order.status}
-                                        onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                                        style={{
-                                            padding: '0.5rem 1rem',
-                                            borderRadius: 'var(--radius-md)',
-                                            border: '1px solid var(--color-border)',
-                                            background: 'white',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        <option value="PENDING">Pendiente</option>
-                                        <option value="PROCESSING">En Proceso</option>
-                                        <option value="COMPLETED">Completado</option>
-                                        <option value="CANCELLED">Cancelado</option>
-                                    </select>
+                                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                        <select
+                                            value={order.status}
+                                            onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                                            style={{
+                                                padding: '0.5rem 1rem',
+                                                borderRadius: 'var(--radius-md)',
+                                                border: '1px solid var(--color-border)',
+                                                background: 'white',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            <option value="PENDING">Pendiente</option>
+                                            <option value="PROCESSING">En Proceso</option>
+                                            <option value="COMPLETED">Completado</option>
+                                            <option value="CANCELLED">Cancelado</option>
+                                        </select>
+
+                                        <button
+                                            onClick={() => handleDeleteOrder(order.id)}
+                                            className="btn btn-outline"
+                                            style={{
+                                                padding: '0.5rem',
+                                                color: '#dc2626',
+                                                borderColor: '#dc2626',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
+                                            title="Eliminar pedido permanentemente"
+                                        >
+                                            🗑️
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         );
